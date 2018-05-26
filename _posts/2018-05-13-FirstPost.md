@@ -2,7 +2,7 @@
 layout: post
 title: First github-based blog
 description: purpose of the blog
-tags: goals objectives EE experts-exchange articles lightning talks
+tags: article
 ---
 Now that the jekyl fork has been renamed and the config file adjusted properly, the blog seems to be a reality.
 
