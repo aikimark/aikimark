@@ -13,14 +13,16 @@ Most of the proposed solutions involved using T-SQL to generate the Update state
 Initially, there were only two types of columns to consider, date and non-date.  Bit column types were added later.  There are nearly 350 columns in this table and only two columns (the Primary key column: ID, and the source/target indicator: SkipImport) are excluded from the updating process.
 
 1. Update statement for non-date columns, replace if TGT is Null and SRC Not Null  
+```SQL  
 Update TGT 
 Set TGT.$1 = SRC.$1
 From Employeestbl TGT inner join Employeestbl SRC  
 	on TGT.[Email] = SRC.[Email] 
 Where TGT.SkipImport = 0 And SRC.SkipImport = 1 
-And TGT.$1 is null and SRC.$1 is not null;
+And TGT.$1 is null and SRC.$1 is not null;```  
 
 2. Update statement for date columns, replace if TGT is < SRC and prior condition  
+```SQL  
 Update TGT 
 Set TGT.$1 = SRC.$1
 From Employeestbl TGT inner join Employeestbl SRC  
@@ -28,17 +30,18 @@ From Employeestbl TGT inner join Employeestbl SRC
 Where TGT.SkipImport = 0 And SRC.SkipImport = 1 
 And ((TGT.$1 is null And SRC.$1 is not null) 
 	OR (TGT.$1 is not null And SRC.$1 is not null And TGT.$1 < SRC.$1)
-	);
+	);```  
 
 3. Update statement for bit columns, update if:  
 	Sender is 1 and receiver is either 0 or null,  
 	then field should be updated to 1.  
+```SQL  
 Update TGT 
 Set TGT.$1 = SRC.$1
 From Employeestbl TGT inner join Employeestbl SRC  
 	on TGT.[Email] = SRC.[Email] 
 Where TGT.SkipImport = 0 And SRC.SkipImport = 1 
-And (TGT.$1 is null Or TGT.$1 = 0) and SRC.$1 = 1
+And (TGT.$1 is null Or TGT.$1 = 0) and SRC.$1 = 1```  
 
 <hr/>
 ## Input
