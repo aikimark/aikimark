@@ -11,6 +11,6 @@ permalink: /tags/
     <li><a href="{{ site.baseurl }}/tag/data">data</a> data related articles - databases, data structures, data analytics</li>
     <li><a href="{{ site.baseurl }}/tag/Julia">Julia</a> Julia related articles</li>
     <li><a href="{{ site.baseurl }}/tag/Regex">Regular Expressions</a> Regular Expression related articles</li>
-    <li><a href="{{ site.baseurl }}/tag/article">article</a> Republished and new articles - usually tech topics</li>
+    <li><a href="{{ site.baseurl }}/tag/tech">tech</a> Republished and new articles - usually tech topics</li>
     <li><a href="{{ site.baseurl }}/tag/opinion">opinion</a> Opinion, philosophy, and humor</li>
 </ul>
