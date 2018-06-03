@@ -19,7 +19,8 @@ Set TGT.$1 = SRC.$1
 From Employeestbl TGT inner join Employeestbl SRC  
 	on TGT.[Email] = SRC.[Email] 
 Where TGT.SkipImport = 0 And SRC.SkipImport = 1 
-And TGT.$1 is null and SRC.$1 is not null;```  
+And TGT.$1 is null and SRC.$1 is not null;
+```  
 
 2. Update statement for date columns, replace if TGT is < SRC and prior condition  
 ``` SQL  
@@ -30,7 +31,8 @@ From Employeestbl TGT inner join Employeestbl SRC
 Where TGT.SkipImport = 0 And SRC.SkipImport = 1 
 And ((TGT.$1 is null And SRC.$1 is not null) 
 	OR (TGT.$1 is not null And SRC.$1 is not null And TGT.$1 < SRC.$1)
-	);```  
+	);
+```  
 
 3. Update statement for bit columns, update if:  
 	Sender is 1 and receiver is either 0 or null,  
@@ -41,7 +43,8 @@ Set TGT.$1 = SRC.$1
 From Employeestbl TGT inner join Employeestbl SRC  
 	on TGT.[Email] = SRC.[Email] 
 Where TGT.SkipImport = 0 And SRC.SkipImport = 1 
-And (TGT.$1 is null Or TGT.$1 = 0) and SRC.$1 = 1```  
+And (TGT.$1 is null Or TGT.$1 = 0) and SRC.$1 = 1
+```  
 
 <hr/>
 ## Input
