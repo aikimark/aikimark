@@ -1,3 +1,9 @@
+---
+layout: post
+title: SQL Generation & Templating
+description: Using templating (macro) approach to some problems
+tags: tech regex
+---
 # SQL generation & templating
 I recently answered a question (http://e-e.com/questions/29100944) about updating rows in a table. This was a self-join scenario where some of the rows served as update data sources for other rows with matching keys.
 
