@@ -4,7 +4,7 @@ title: SQL Generation & Templating
 description: Using templating (macro) approach to some problems
 tags: tech regex
 ---
-# SQL generation & templating
+# Introduction
 I recently answered a question (http://e-e.com/questions/29100944) about updating rows in a table. This was a self-join scenario where some of the rows served as update data sources for other rows with matching keys.
 
 Most of the proposed solutions involved using T-SQL to generate the Update statements or a stored proc.  I took a different approach which proved quite flexible and produced testable results quickly.  I used SQL as replacement pattern for a few Find/Replace operations in a text editor.  Since I am a fan of regular expressions, my text editor of choice is Notepad++.  Since many solutions involve iteration with your users, flexibility and iteration speed are important characteristics.  
@@ -12,7 +12,7 @@ Most of the proposed solutions involved using T-SQL to generate the Update state
 ## User Requirements
 Initially, there were only two types of columns to consider, date and non-date.  Bit column types were added later.  There are nearly 350 columns in this table and only two columns (the Primary key column: ID, and the source/target indicator: SkipImport) are excluded from the updating process.
 
-1. Update statement for non-date columns, replace if TGT is Null and SRC Not Null
+1. Update statement for non-date columns, replace if TGT is Null and SRC Not Null  
 Update TGT 
 Set TGT.$1 = SRC.$1
 From Employeestbl TGT inner join Employeestbl SRC  
@@ -20,7 +20,7 @@ From Employeestbl TGT inner join Employeestbl SRC
 Where TGT.SkipImport = 0 And SRC.SkipImport = 1 
 And TGT.$1 is null and SRC.$1 is not null;
 
-2. Update statement for date columns, replace if TGT is < SRC and prior condition
+2. Update statement for date columns, replace if TGT is < SRC and prior condition  
 Update TGT 
 Set TGT.$1 = SRC.$1
 From Employeestbl TGT inner join Employeestbl SRC  
@@ -30,9 +30,9 @@ And ((TGT.$1 is null And SRC.$1 is not null)
 	OR (TGT.$1 is not null And SRC.$1 is not null And TGT.$1 < SRC.$1)
 	);
 
-3. Update statement for bit columns, update if:
-	Sender is 1 and receiver is either 0 or null, 
-	then field should be updated to 1.
+3. Update statement for bit columns, update if:  
+	Sender is 1 and receiver is either 0 or null,  
+	then field should be updated to 1.  
 Update TGT 
 Set TGT.$1 = SRC.$1
 From Employeestbl TGT inner join Employeestbl SRC  
@@ -399,13 +399,13 @@ CREATE TABLE [dbo].[Employeestbl](
 ) ON [PRIMARY]
 
 GO
-</textarea>
+</textarea>  
 
 <hr>
 ## Process
 Here's where regular expressions can really help you do some templating magic.  In Notepad++, you need to set the _Search Mode_ to "Regular Expression" when you display the Find/Replace dialog.
 1. I have to delete the non-field-defining lines.  
-<textarea name="DDLprep1" rows="15" cols="80">
+<textarea name="DDLprep1" rows="10" cols="80">
 	CREATE TABLE [dbo].[Employeestbl](
 	 CONSTRAINT [PK_Employeestbl] PRIMARY KEY CLUSTERED 
 	(
@@ -414,7 +414,7 @@ Here's where regular expressions can really help you do some templating magic.  
 	) ON [PRIMARY]
 
 	GO
-</textarea>
+</textarea>  
 I initially did this manually, but the Find/Replace commands are:
 Find what: __CONSTRAINT[^$]+__  
 Replace with:
@@ -423,24 +423,24 @@ Find what: __CREATE TABLE [^\r]+\r\n__
 Replace with:
 
 2. I have to delete the ID and SkipImport lines.
-<textarea name="DDLprep2" rows="15" cols="80">
+<textarea name="DDLprep2" rows="3" cols="80">
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[SkipImport] [int] NULL,
-</textarea>
-I initially did this manually, but the Find/Replace commands are:
-Find what: __\t\[(ID|SkipImport)\][^\r]+\r\n__
+</textarea>  
+I initially did this manually, but the Find/Replace commands are:  
+Find what: __\t\[(ID|SkipImport)\][^\r]+\r\n__  
 Replace with:
 
 The remaining DDL lines are transformed with one Find/Replace operation per type of column (date, bit, everything else).  As with such processing, exceptions (special cases) are processed first.  The Update statements (above) are modified so that they are on a single line.
 
-Find what: __\t(\[.+?\]) \[(?:smalldatetime|datetime)\] [^,]+,__
-Replace with: __Update TGT Set TGT.$1 = SRC.$1 From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And \(\(TGT.$1 is null And SRC.$1 is not null\) OR \(TGT.$1 is not null And SRC.$1 is not null And TGT.$1 < SRC.$1\)\);__
+Find what: __\t(\[.+?\]) \[(?:smalldatetime|datetime)\] [^,]+,__  
+Replace with: __Update TGT Set TGT.$1 = SRC.$1 From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And \(\(TGT.$1 is null And SRC.$1 is not null\) OR \(TGT.$1 is not null And SRC.$1 is not null And TGT.$1 < SRC.$1\)\);__  
 
-Find what: __\t(\[.+?\]) \[bit\] [^,]+,__
-Replace with: __Update TGT Set TGT.$1 = SRC.$1 From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And \(TGT.$1 is null Or TGT.$1 = 0\) and SRC.$1 = 1;__
+Find what: __\t(\[.+?\]) \[bit\] [^,]+,__  
+Replace with: __Update TGT Set TGT.$1 = SRC.$1 From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And \(TGT.$1 is null Or TGT.$1 = 0\) and SRC.$1 = 1;__  
 
-Find what: __\t(\[.+?\]) \[[^,]+,__
-Replace with: __Update TGT Set TGT.$1 = SRC.$1 From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And TGT.$1 is null and SRC.$1 is not null;__
+Find what: __\t(\[.+?\]) \[[^,]+,__  
+Replace with: __Update TGT Set TGT.$1 = SRC.$1 From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And TGT.$1 is null and SRC.$1 is not null;__  
 
 __Notes:__  
 * Removing the leading tab character with the edit gives good visual clue for
@@ -796,7 +796,7 @@ Update TGT Set TGT.[EducationVerifiedType] = SRC.[EducationVerifiedType] From Em
 Update TGT Set TGT.[SSNSearch] = SRC.[SSNSearch] From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And (TGT.[SSNSearch] is null Or TGT.[SSNSearch] = 0) and SRC.[SSNSearch] = 1;
 Update TGT Set TGT.[Fingerprint] = SRC.[Fingerprint] From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And TGT.[Fingerprint] is null and SRC.[Fingerprint] is not null;
 Update TGT Set TGT.[DateExportedBS] = SRC.[DateExportedBS] From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And ((TGT.[DateExportedBS] is null And SRC.[DateExportedBS] is not null) OR (TGT.[DateExportedBS] is not null And SRC.[DateExportedBS] is not null And TGT.[DateExportedBS] < SRC.[DateExportedBS]));
-</textarea>
+</textarea>  
 
 ## Conclusion
 This solution was simple and quick.  While I referred to this as a template soluction I think it is almost an inversion of the typical 'template' configurations you will encounter.  Maybe this would be better described as a __macro__ solution in the traditional sense of expansion/substitution of code.
