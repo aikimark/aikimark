@@ -421,7 +421,7 @@ Here's where regular expressions can really help you do some templating magic.  
 
 	GO
 </textarea>  
-I initially did this manually, but the Find/Replace commands are:
+I initially did this manually, but the Find/Replace commands are:  
 Find what: __CONSTRAINT[^$]+__  
 Replace with:
 
@@ -456,6 +456,8 @@ checking the find/replace results
 broken up into two executions.
 
 <hr>
+## Transformed DDL
+When these three transformational Find/Replace operations have been invoked, this is what we're left with:  
 <textarea name="transformedDDL" rows="15" cols="80">
 Update TGT Set TGT.[RevisionDate] = SRC.[RevisionDate] From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And ((TGT.[RevisionDate] is null And SRC.[RevisionDate] is not null) OR (TGT.[RevisionDate] is not null And SRC.[RevisionDate] is not null And TGT.[RevisionDate] < SRC.[RevisionDate]));
 Update TGT Set TGT.[IntoFacility] = SRC.[IntoFacility] From Employeestbl TGT inner join Employeestbl SRC on TGT.[Email] = SRC.[Email] Where TGT.SkipImport = 0 And SRC.SkipImport = 1 And TGT.[IntoFacility] is null and SRC.[IntoFacility] is not null;
