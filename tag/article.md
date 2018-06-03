@@ -1,5 +1,5 @@
 ---
 layout: tagpage
-title: "Tag: article"
-tag: article
+title: "Tag: tech"
+tag: tech
 ---
