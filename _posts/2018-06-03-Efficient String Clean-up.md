@@ -1,3 +1,9 @@
+---
+layout: post
+title: Efficient String Clean-up
+description: An analysis of various means of cleaning strings of multiple space characters
+tags: tech regex
+---
 <h2>Introduction</h2>
 <p>I frequently answer questions where strings need to be 'cleaned' of multiple space characters.&nbsp;The most common fix is to remove leading or trailing spaces.&nbsp;For that problem, there are very handy intrinsic VB functions (LTrim, RTrim,
  Trim).&nbsp;However, these functions do not affect any repeated space characters between the first and last non-space characters -- the internal spaces.</p>
