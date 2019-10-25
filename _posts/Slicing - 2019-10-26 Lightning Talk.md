@@ -12,7 +12,7 @@ Recently, I was answering a question that involved the conversion of a string in
 First, a brief description of the problem...
 The data included string _dates_ in the form __yyyymmdd__. The user needed to do some date calculations, so that string needed to be converted into a date object.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aikimark/aikimark.github.io/?filepath=blob%2Fmaster%2FFiles%2FSlicing%2520-%25202019-10-26%2520Lightning%2520Talk.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aikimark/aikimark.github.io/master?filepath=blob%2Fmaster%2FFiles%2FSlicing%2520-%25202019-10-26%2520Lightning%2520Talk.ipynb)
 
 ```python
 import datetime
