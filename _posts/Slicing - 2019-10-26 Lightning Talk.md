@@ -141,7 +141,7 @@ Rounding out the top three are __slice list__ and __explicit slices__ methods.
 
 Even though I like list comprehensions, this is 34% slower than __explicit slices__.
 
-Regular expressions came in last, 1.35% slower than __explicit slices__. Better luck next time, buddy.
+Regular expressions came in last, 135% slower than __explicit slices__. Better luck next time, buddy.
 
 
 ```python
