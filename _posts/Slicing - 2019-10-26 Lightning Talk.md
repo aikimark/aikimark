@@ -1,3 +1,9 @@
+---
+layout: post
+title: Slicing Explored
+description: Exploring Python list slicing
+tags: Python performance regex
+---
 # Slicing
 ### TriPython Lightning Talk 2019-10-24
 
