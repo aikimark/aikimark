@@ -1,7 +1,7 @@
 # Slicing
 ### TriPython Lightning Talk 2019-10-24
 
-Recently, I was answering a question that involved the conversion of a string into a date. While coding a solution, I was admiring the ease of doing list splicing in Python. Looking for a syntax documentation, I noticed a __slice()__ item in the list of intrinsic functions. I was intrigued and wandered into the forest.
+Recently, I was answering a question that involved the conversion of a string into a date. While coding a solution, I was admiring the ease of doing list slicing in Python. Looking for a syntax documentation, I noticed a __slice()__ item in the list of intrinsic functions. I was intrigued and wandered into the forest.
 
 First, a brief description of the problem...
 The data included string _dates_ in the form __yyyymmdd__. The user needed to do some date calculations, so that string needed to be converted into a date object.
@@ -22,9 +22,9 @@ print('explicit slices:\t', dt)
 
 __Ta Daaaaa!__ Problem solved. Time to move on.
 
-But what is this __splice()__ function? Can it simplify or enhance my splicing efforts? Time to explore this function.
+But what is this __slice()__ function? Can it simplify or enhance my slicing efforts? Time to explore this function.
 
-In essence, the __splice()__ function returns an object that is described in a normal splice expression -- the colon-delimited numbers you see in the code above.
+In essence, the __slice()__ function returns an object that is described in a normal slice expression -- the colon-delimited numbers you see in the code above.
 
 
 ```python
@@ -122,7 +122,7 @@ print('regex parse:      \t', dt)
 ## Benefits?
 * The individual explicit list slicing is the most common. If you used this method, your code would be understood by almost every Pythonista.
 
-* I find the splice variables to be a bit more self documenting than the explicit slices.
+* I find the slice variables to be a bit more self documenting than the explicit slices.
 
 * Just because we can put slices into an array doesn't mean that the result is any more readable, as we see in the individually indexed items example.
 
