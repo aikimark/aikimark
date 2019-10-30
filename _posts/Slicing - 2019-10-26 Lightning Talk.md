@@ -13,7 +13,7 @@ First, a brief description of the problem...
 The data included string _dates_ in the form __yyyymmdd__. The user needed to do some date calculations, so that string needed to be converted into a date object.
 
 __NOTE:__ I'm working on getting the Binder link to work, so that you can view the original Jupyter notebook as a working notebook.
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aikimark/aikimark.github.io/master?filepath=blob%2Fmaster%2FFiles%2FSlicing%2520-%25202019-10-26%2520Lightning%2520Talk.ipynb)
+[![Binder](https://hub.gke.mybinder.org/user/aikimark-aikimark.github.io-b9w4b123/notebooks/Files/Slicing%20-%202019-10-26%20Lightning%20Talk.ipynb)
 
 ```python
 import datetime
